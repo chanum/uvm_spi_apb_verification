@@ -1,0 +1,9 @@
+work
+*.wlf
+wlf*
+_*
+*.ini
+transcript*
+vsim_stacktrace*
+tcl_stacktrace*
+vlog.*

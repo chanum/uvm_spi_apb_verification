@@ -1,11 +1,11 @@
-# QuestaSim Script
+# QuestaSim Compiel & Run Script
 
 # IMPORTANT set UVM path!
 set UVM_LIB    C:/fpga/questasim64_10.7c/uvm-1.2
 
-set RTL        ../../../../rtl
-set AGENTS     ../../../../vip/agents
-set UTILS      ../../../../vip/utils
+set RTL        ../../../rtl
+set AGENTS     ../../vip/agents
+set UTILS      ../../vip/utils
 
 # TESCASE
 # spi_interrupt_test
@@ -19,7 +19,7 @@ catch {file delete -force work}
 
 vlib work
 
-vlog -incr +incdir+${UVM_LIB} +incdir+${RTL}/spi/rtl/verilog ${RTL}/spi/rtl/verilog/*.v
+vlog -incr +incdir+${UVM_LIB} +incdir+${RTL} ${RTL}/*.v
 vlog -incr +incdir+${UVM_LIB} +incdir+${AGENTS}/apb_agent +incdir+${UTILS} ${AGENTS}/apb_agent/apb_agent_pkg.sv -suppress 2263
 vlog -incr +incdir+${UVM_LIB} +incdir+${AGENTS}/spi_agent +incdir+${UTILS} ${AGENTS}/spi_agent/spi_agent_pkg.sv -suppress 2263
 vlog -incr +incdir+${UVM_LIB} +incdir+../register_model ../register_model/spi_reg_pkg.sv -suppress 2263

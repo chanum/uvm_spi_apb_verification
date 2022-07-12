@@ -18,7 +18,8 @@
 //------------------------------------------------------------
 
 module hvl_top;
-  `include "timescale.v"
+  `timescale 1ns / 10ps
+
   import uvm_pkg::*;
   import spi_test_lib_pkg::*;
 
