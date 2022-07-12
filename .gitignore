@@ -3,7 +3,9 @@ work
 wlf*
 _*
 *.ini
+*.dbg
 transcript*
 vsim_stacktrace*
 tcl_stacktrace*
 vlog.*
+covhtmlreport

@@ -1,4 +1,8 @@
 # QuestaSim Compiel & Run Script
+#
+# Author: Marcelo A. Pouso
+# Mail: mapouso86@gmail.com
+#
 
 # IMPORTANT set UVM path!
 set UVM_LIB    C:/fpga/questasim64_10.7c/uvm-1.2
@@ -7,7 +11,7 @@ set RTL        ../../../rtl
 set AGENTS     ../../vip/agents
 set UTILS      ../../vip/utils
 
-# TESCASE
+# TESCASES:
 # spi_interrupt_test
 # spi_poll_test
 # spi_reg_test
@@ -19,6 +23,7 @@ catch {file delete -force work}
 
 vlib work
 
+# Compile
 vlog -incr +incdir+${UVM_LIB} +incdir+${RTL} ${RTL}/*.v
 vlog -incr +incdir+${UVM_LIB} +incdir+${AGENTS}/apb_agent +incdir+${UTILS} ${AGENTS}/apb_agent/apb_agent_pkg.sv -suppress 2263
 vlog -incr +incdir+${UVM_LIB} +incdir+${AGENTS}/spi_agent +incdir+${UTILS} ${AGENTS}/spi_agent/spi_agent_pkg.sv -suppress 2263
@@ -39,6 +44,12 @@ vlog -incr +incdir+${UVM_LIB} +incdir+../test ../test/spi_test_lib_pkg.sv -suppr
 vlog -incr +incdir+${UVM_LIB} -timescale 1ns/10ps +incdir+${RTL}/spi/rtl/verilog ../tb/hvl_top.sv
 vlog -incr +incdir+${UVM_LIB} -timescale 1ns/10ps +incdir+${RTL}/spi/rtl/verilog ../tb/hdl_top.sv
 
-vsim -c -do "run -all" hvl_top hdl_top +UVM_TESTNAME=${TEST} -suppress 8887
+# Run Simulation
+vsim -debugdb \
+    -do "log -r /*; run -all" \
+    hvl_top hdl_top +UVM_TESTNAME=${TEST} \
+    -suppress 8887
 
-coverage report -detail
+# Generatre Report
+coverage report -detail 
+coverage report -html 
