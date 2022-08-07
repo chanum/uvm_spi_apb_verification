@@ -108,7 +108,7 @@ class config_interrupt_test extends spi_vseq_base;
           end
         end
         begin
-          spi_transfer.BITS = control[6:0];
+          spi_transfer.bits = control[6:0];
           spi_transfer.rx_edge = control[9];
           spi_transfer.start(spi_sqr);
         end
@@ -152,7 +152,7 @@ class config_polling_test extends spi_vseq_base;
       spi_config.interrupt_enable = 1;
       spi_config.start(m_sequencer);
       control = spi_config.data;
-      spi_transfer.BITS = control[6:0];
+      spi_transfer.bits = control[6:0];
       spi_transfer.rx_edge = control[9];
       fork
         spi_transfer.start(spi_sqr);

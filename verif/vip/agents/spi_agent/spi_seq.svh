@@ -51,14 +51,14 @@ class spi_rand_seq extends uvm_sequence #(spi_seq_item);
     super.new(name);
   endfunction
 
-  rand int unsigned BITS;
+  rand int unsigned bits;
   rand logic rx_edge;
 
   task body;
     spi_seq_item req = spi_seq_item::type_id::create("req");
 
     start_item(req);
-    if (!req.randomize() with {req.no_bits == BITS; req.RX_NEG == rx_edge;}) begin
+    if (!req.randomize() with {req.no_bits == bits; req.RX_NEG == rx_edge;}) begin
       `uvm_error("body", "req randomization failure")
     end
     finish_item(req);

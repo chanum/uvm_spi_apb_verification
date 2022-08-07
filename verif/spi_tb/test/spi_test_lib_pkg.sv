@@ -36,5 +36,6 @@ package spi_test_lib_pkg;
   `include "spi_reg_test.svh"
   `include "spi_interrupt_test.svh"
   `include "spi_poll_test.svh"
+  `include "spi_override_test.svh"
 
 endpackage: spi_test_lib_pkg

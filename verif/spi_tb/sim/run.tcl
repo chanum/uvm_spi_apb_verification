@@ -15,7 +15,8 @@ set UTILS      ../../vip/utils
 # spi_interrupt_test
 # spi_poll_test
 # spi_reg_test
-set TEST spi_interrupt_test
+# spi_override_test
+set TEST spi_override_test
 
 
 quit -sim
