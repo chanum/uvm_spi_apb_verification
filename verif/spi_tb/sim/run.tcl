@@ -52,4 +52,4 @@ vsim -debugdb \
 
 # Generatre Report
 coverage report -detail 
-coverage report -html 
+# coverage report -html 

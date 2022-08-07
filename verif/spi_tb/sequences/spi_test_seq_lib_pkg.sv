@@ -42,14 +42,14 @@ class spi_vseq_base extends uvm_sequence #(uvm_sequence_item);
   endfunction
 
   // Virtual sequencer handles
-  spi_sequencer spi;
+  spi_sequencer spi_sqr;
 
   // Handle for env config to get to interrupt line
   spi_env_config m_cfg;
 
   // This set up is required for child sequences to run
   task body;
-    if(spi==null) begin
+    if(spi_sqr==null) begin
       `uvm_fatal("SEQ_ERROR", "Sequencer handle is null")
     end
 
@@ -82,8 +82,8 @@ class config_interrupt_test extends spi_vseq_base;
   task body;
     // Sequences to be used
     ctrl_go_seq go = ctrl_go_seq::type_id::create("go");
-    SPI_config_rand_order_seq spi_config = SPI_config_rand_order_seq::type_id::create("spi_config");
-    tfer_over_by_poll_seq wait_unload = tfer_over_by_poll_seq::type_id::create("wait_unload");
+    spi_config_rand_order_seq spi_config = spi_config_rand_order_seq::type_id::create("spi_config");
+    transfer_over_by_poll_seq wait_unload = transfer_over_by_poll_seq::type_id::create("wait_unload");
     spi_rand_seq spi_transfer = spi_rand_seq::type_id::create("spi_transfer");
 
     spi_seq_set_cfg(go);
@@ -110,7 +110,7 @@ class config_interrupt_test extends spi_vseq_base;
         begin
           spi_transfer.BITS = control[6:0];
           spi_transfer.rx_edge = control[9];
-          spi_transfer.start(spi);
+          spi_transfer.start(spi_sqr);
         end
       join
     end
@@ -136,8 +136,8 @@ class config_polling_test extends spi_vseq_base;
   task body;
     // Sequences to be used
     ctrl_go_seq go = ctrl_go_seq::type_id::create("go");
-    SPI_config_rand_order_seq spi_config = SPI_config_rand_order_seq::type_id::create("spi_config");
-    tfer_over_by_poll_seq wait_unload = tfer_over_by_poll_seq::type_id::create("wait_unload");
+    spi_config_rand_order_seq spi_config = spi_config_rand_order_seq::type_id::create("spi_config");
+    transfer_over_by_poll_seq wait_unload = transfer_over_by_poll_seq::type_id::create("wait_unload");
     spi_rand_seq spi_transfer = spi_rand_seq::type_id::create("spi_transfer");
 
     spi_seq_set_cfg(go);
@@ -155,7 +155,7 @@ class config_polling_test extends spi_vseq_base;
       spi_transfer.BITS = control[6:0];
       spi_transfer.rx_edge = control[9];
       fork
-        spi_transfer.start(spi);
+        spi_transfer.start(spi_sqr);
       join_none
       go.start(m_sequencer);
       wait_unload.start(m_sequencer);

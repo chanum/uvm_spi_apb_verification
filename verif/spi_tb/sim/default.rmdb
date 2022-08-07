@@ -1,0 +1,32 @@
+<rmdb>
+ <!-- =====================================================-->
+  <runnable name="test_suite" type="group">
+    <parameters>
+      <parameter name="RUNDIR">(%RMDBDIR%)</parameter>
+    </parameters>
+    <members>
+      <member>spi_interrupt_test</member>
+      <member>spi_poll_test</member>
+      <member>spi_reg_test</member>
+    </members>
+    <preScript>
+      <command>echo "Start regression"</command>
+      <command>cd (%RUNDIR%)</command>
+      <command>do prepare.tcl</command>
+    </preScript>
+    <execScript> 
+      <command>cd (%RUNDIR%)</command>
+      <command>do run.tcl (%INSTANCE%) </command>
+    </execScript>
+     <postScript>
+      <command>echo "End regression"</command>
+    </postScript>
+  </runnable>
+  <!-- =====================================================-->
+  <runnable name="spi_interrupt_test" type="task">
+  </runnable>
+   <runnable name="spi_poll_test" type="task">
+  </runnable>
+   <runnable name="spi_reg_test" type="task">
+  </runnable>
+</rmdb>

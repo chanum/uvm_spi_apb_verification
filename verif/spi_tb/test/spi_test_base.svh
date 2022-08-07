@@ -88,7 +88,7 @@ class spi_test_base extends uvm_test;
   function void set_seqs(spi_vseq_base vseq);
     // Set vseq sequencer pointers to agent's sequencers.
     vseq.m_cfg = m_env_config;
-    vseq.spi = m_env.m_spi_agent.m_sequencer;
+    vseq.spi_sqr = m_env.m_spi_agent.m_sequencer;
   endfunction: set_seqs
 
 endclass: spi_test_base

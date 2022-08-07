@@ -259,11 +259,11 @@ endclass: slave_unselect_seq
 // Does successive reads from the control register
 // to determine when the transfer has completed
 //
-class tfer_over_by_poll_seq extends spi_bus_base_seq;
+class transfer_over_by_poll_seq extends spi_bus_base_seq;
 
-  `uvm_object_utils(tfer_over_by_poll_seq)
+  `uvm_object_utils(transfer_over_by_poll_seq)
 
-  function new(string name = "tfer_over_by_poll_seq");
+  function new(string name = "transfer_over_by_poll_seq");
     super.new(name);
   endfunction
 
@@ -288,16 +288,16 @@ class tfer_over_by_poll_seq extends spi_bus_base_seq;
     empty_buffer.start(m_sequencer);
   endtask: body
 
-endclass: tfer_over_by_poll_seq
+endclass: transfer_over_by_poll_seq
 
 //
 // Sequence to configure the SPI randomly
 //
-class SPI_config_seq extends spi_bus_base_seq;
+class spi_config_seq extends spi_bus_base_seq;
 
-  `uvm_object_utils(SPI_config_seq)
+  `uvm_object_utils(spi_config_seq)
 
-  function new(string name = "SPI_config_seq");
+  function new(string name = "spi_config_seq");
     super.new(name);
   endfunction
 
@@ -324,17 +324,17 @@ class SPI_config_seq extends spi_bus_base_seq;
     data = spi_rb.ctrl.get();
   endtask: body
 
-endclass: SPI_config_seq
+endclass: spi_config_seq
 
 //
 // Sequence to configure the SPI randomly
 // writing configuration values in a random order
 //
-class SPI_config_rand_order_seq extends spi_bus_base_seq;
+class spi_config_rand_order_seq extends spi_bus_base_seq;
 
-  `uvm_object_utils(SPI_config_rand_order_seq)
+  `uvm_object_utils(spi_config_rand_order_seq)
 
-  function new(string name = "SPI_config_rand_order_seq");
+  function new(string name = "spi_config_rand_order_seq");
     super.new(name);
   endfunction
 
@@ -366,6 +366,6 @@ class SPI_config_rand_order_seq extends spi_bus_base_seq;
     data = spi_rb.ctrl.get();
   endtask: body
 
-endclass: SPI_config_rand_order_seq
+endclass: spi_config_rand_order_seq
 
 endpackage: spi_bus_sequence_lib_pkg
