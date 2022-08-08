@@ -27,7 +27,7 @@ class spi_seq_item extends uvm_sequence_item;
   //------------------------------------------
   rand logic[127:0] spi_data;
   rand bit[6:0] no_bits;
-  rand bit RX_NEG;
+  rand bit rx_neg;
 
   // Analysis members:
   logic[127:0] nedge_mosi;
@@ -59,7 +59,7 @@ function void spi_seq_item::do_copy(uvm_object rhs);
   // Copy over data members:
   spi_data = rhs_.spi_data;
   no_bits = rhs_.no_bits;
-  RX_NEG = rhs_.RX_NEG;
+  rx_neg = rhs_.rx_neg;
   nedge_mosi = rhs_.nedge_mosi;
   pedge_mosi = rhs_.pedge_mosi;
   nedge_miso = rhs_.nedge_miso;
@@ -78,7 +78,7 @@ function bit spi_seq_item::do_compare(uvm_object rhs, uvm_comparer comparer);
   return super.do_compare(rhs, comparer) &&
          spi_data == rhs_.spi_data &&
          no_bits == rhs_.no_bits &&
-         RX_NEG == rhs_.RX_NEG;
+         rx_neg == rhs_.rx_neg;
 endfunction: do_compare
 
 function string spi_seq_item::convert2string();
@@ -86,8 +86,8 @@ function string spi_seq_item::convert2string();
 
   $sformat(s, "%s\n", super.convert2string());
   // Convert to string function reusing s:
-  $sformat(s, "%s spi_data\t%0h\n no_bits\t%0b\n RX_NEG\t%0b\n",
-           s, spi_data, no_bits, RX_NEG);
+  $sformat(s, "%s spi_data\t%0h\n no_bits\t%0b\n rx_neg\t%0b\n",
+           s, spi_data, no_bits, rx_neg);
   return s;
 
 endfunction:convert2string

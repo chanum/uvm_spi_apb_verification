@@ -58,7 +58,7 @@ class spi_rand_seq extends uvm_sequence #(spi_seq_item);
     spi_seq_item req = spi_seq_item::type_id::create("req");
 
     start_item(req);
-    if (!req.randomize() with {req.no_bits == bits; req.RX_NEG == rx_edge;}) begin
+    if (!req.randomize() with {req.no_bits == bits; req.rx_neg == rx_edge;}) begin
       `uvm_error("body", "req randomization failure")
     end
     finish_item(req);
@@ -66,3 +66,23 @@ class spi_rand_seq extends uvm_sequence #(spi_seq_item);
   endtask:body
 
 endclass: spi_rand_seq
+
+class spi_bits_32_seq extends spi_rand_seq;
+  `uvm_object_utils(spi_bits_32_seq)
+
+  function new(string name = "spi_bits_32_seq");
+    super.new(name);
+  endfunction
+
+  task body;
+    spi_seq_item req = spi_seq_item::type_id::create("req");
+
+    start_item(req);
+    if (!req.randomize() with {req.no_bits == 32; req.rx_neg == rx_edge;}) begin
+      `uvm_error("body", "req randomization failure")
+    end
+    finish_item(req);
+
+  endtask:body
+
+endclass: spi_bits_32_seq

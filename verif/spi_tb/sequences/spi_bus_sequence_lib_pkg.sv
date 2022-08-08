@@ -239,7 +239,6 @@ endclass: slave_select_seq
 // Writes 0 to the slave select register
 //
 class slave_unselect_seq extends spi_bus_base_seq;
-
   `uvm_object_utils(slave_unselect_seq)
 
   function new(string name = "slave_unselect_seq");
@@ -260,7 +259,6 @@ endclass: slave_unselect_seq
 // to determine when the transfer has completed
 //
 class transfer_over_by_poll_seq extends spi_bus_base_seq;
-
   `uvm_object_utils(transfer_over_by_poll_seq)
 
   function new(string name = "transfer_over_by_poll_seq");
@@ -294,7 +292,6 @@ endclass: transfer_over_by_poll_seq
 // Sequence to configure the SPI randomly
 //
 class spi_config_seq extends spi_bus_base_seq;
-
   `uvm_object_utils(spi_config_seq)
 
   function new(string name = "spi_config_seq");
@@ -331,7 +328,6 @@ endclass: spi_config_seq
 // writing configuration values in a random order
 //
 class spi_config_rand_order_seq extends spi_bus_base_seq;
-
   `uvm_object_utils(spi_config_rand_order_seq)
 
   function new(string name = "spi_config_rand_order_seq");
@@ -351,7 +347,7 @@ class spi_config_rand_order_seq extends spi_bus_base_seq;
                                  spi_rb.ctrl.ie.value == interrupt_enable;
                                  spi_rb.ss.cs.value != 0;
 //                                 spi_rb.ctrl.char_len.value inside {0, 1, [31:33], [63:65], [95:97], 126, 127};
-                                 spi_rb.ctrl.char_len.value inside {[1:31]};
+                                 spi_rb.ctrl.char_len.value inside {[30:31]};
                                  spi_rb.divider.ratio.value inside {16'h0, 16'h1, 16'h2, 16'h4, 16'h8, 16'h10, 16'h20, 16'h40, 16'h80};
                                 }) begin
       `uvm_error("body", "spi_rb randomization failure")
@@ -367,5 +363,39 @@ class spi_config_rand_order_seq extends spi_bus_base_seq;
   endtask: body
 
 endclass: spi_config_rand_order_seq
+
+class spi_config_x32_order_seq extends spi_config_rand_order_seq;
+  `uvm_object_utils(spi_config_x32_order_seq)
+
+  function new(string name = "spi_config_x32_order_seq");
+    super.new(name);
+  endfunction
+
+  task body;
+    super.body;
+
+    spi_rb.get_registers(spi_regs);
+    // Randomize the register model to get a new config
+    // Constraining the generated value within ranges
+    if(!spi_rb.randomize() with {spi_rb.ctrl.go_bsy.value == 0;
+                                 spi_rb.ctrl.ie.value == interrupt_enable;
+                                 spi_rb.ss.cs.value != 0;
+//                                 spi_rb.ctrl.char_len.value inside {0, 1, [31:33], [63:65], [95:97], 126, 127};
+                                 spi_rb.ctrl.char_len.value == 31;
+                                 spi_rb.divider.ratio.value inside {16'h0, 16'h1, 16'h2, 16'h4, 16'h8, 16'h10, 16'h20, 16'h40, 16'h80};
+                                }) begin
+      `uvm_error("body", "spi_rb randomization failure")
+    end
+    // This will write the generated values to the HW registers
+    // in a random order
+    spi_regs.shuffle();
+    foreach(spi_regs[i]) begin
+      spi_regs[i].update(status, .path(UVM_FRONTDOOR), .parent(this));
+    end
+    // Get the configured version of the control register
+    data = spi_rb.ctrl.get();
+  endtask: body
+
+endclass: spi_config_x32_order_seq
 
 endpackage: spi_bus_sequence_lib_pkg
