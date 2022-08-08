@@ -21,10 +21,13 @@ function void spi_override_test::build_phase(uvm_phase phase);
   uvm_reg::include_coverage("*", UVM_CVR_ADDR_MAP, this);
   super.build_phase(phase);
 
-  // verride spi_config_rand_order_seq by spi_config_x32_order_seq
+  // Type Override spi_config_rand_order_seq by spi_config_x32_order_seq
   set_type_override_by_type(spi_config_rand_order_seq::get_type(), spi_config_x32_order_seq::get_type());
-  // override spi_rand_seq by spi_bits_32_seq
+  // Type Override spi_rand_seq by spi_bits_32_seq
   set_type_override_by_type(spi_rand_seq::get_type(), spi_bits_32_seq::get_type());
+
+  // Instance Override spi_driver by spi_driver2
+  set_inst_override_by_type("m_env.m_spi_agent.m_driver", spi_driver::get_type(), spi_driver2::get_type());
 
 endfunction: build_phase
 
@@ -35,14 +38,18 @@ function void spi_override_test::end_of_elaboration_phase(uvm_phase phase);
   this.print();
   factory.print();
   // Output:
-  //   #### Factory Configuration (*)
+  //  #### Factory Configuration (*)
   // # 
-  // # No instance overrides are registered with this factory
+  // # Instance Overrides:
+  // # 
+  // #   Requested Type  Override Path                            Override Type
+  // #   --------------  ---------------------------------------  -------------
+  // #   spi_driver      uvm_test_top.m_env.m_spi_agent.m_driver  spi_driver2
   // # 
   // # Type Overrides:
   // # 
-  // #   Requested Type             Override Type           
-  // #   -------------------------  ------------------------
+  // #   Requested Type             Override Type                          
+  // #   -------------------------  ---------------------------------------
   // #   spi_config_rand_order_seq  spi_config_x32_order_seq
   // #   spi_rand_seq               spi_bits_32_seq
 endfunction: end_of_elaboration_phase

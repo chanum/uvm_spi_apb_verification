@@ -23,7 +23,7 @@ class spi_driver extends uvm_driver #(spi_seq_item, spi_seq_item);
   `uvm_component_utils(spi_driver)
 
   // Virtual Interface
-  local virtual spi_driver_bfm m_bfm;
+  virtual spi_driver_bfm m_bfm;
 
   // Handle to the agent's configuration object.
   spi_agent_config m_config;
